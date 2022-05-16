@@ -8,21 +8,39 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return (transactions.length > 0)
-        ? Container(
-            height: 200,
+    return (transactions.isNotEmpty)
+        ? SizedBox(
+            height: 300,
             child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
               itemBuilder: (ctx, index) {
-                return transactionCard(
-                    title: transactions[index].title,
-                    amount: transactions[index].amount,
-                    date: transactions[index].date,
-                    context: context);
+                return Card(
+                  elevation: 5,
+                  margin: const EdgeInsets.symmetric(vertical: 8,horizontal: 5),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: FittedBox(
+                          child: Text(
+                            transactions[index].amount.toStringAsFixed(2),
+                          ),
+                        ),
+                      ),
+                    ),
+                    title: Text(
+                      transactions[index].title,
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                    subtitle: Text(DateFormat.yMMMd().format(transactions[index].date)),
+                  ),
+                );
+                // children: transactions.map((tx) {
+                //   return transactionCard(
+                //       title: tx.title, amount: tx.amount, date: tx.date);
+                // }).toList(),
               },
-              // children: transactions.map((tx) {
-              //   return transactionCard(
-              //       title: tx.title, amount: tx.amount, date: tx.date);
-              // }).toList(),
               itemCount: transactions.length,
             ),
           )
@@ -31,8 +49,10 @@ class TransactionList extends StatelessWidget {
               "We have no transactions yet",
               style: Theme.of(context).textTheme.headline6,
             ),
-            SizedBox(height: 15.0,),
-            Container(
+            const SizedBox(
+              height: 15.0,
+            ),
+            SizedBox(
               child: Image.asset(
                 "assets/images/waiting.png",
                 fit: BoxFit.cover,
@@ -94,6 +114,7 @@ class TransactionList extends StatelessWidget {
   }
 
   Widget showAmount(double amount, BuildContext context) {
+    print(amount.toStringAsFixed(0));
     return Container(
       margin: const EdgeInsets.only(
         left: 15,
