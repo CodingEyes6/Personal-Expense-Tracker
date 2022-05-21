@@ -44,7 +44,7 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(DateTime.now());
+  
     return Card(
       
       elevation: 6,

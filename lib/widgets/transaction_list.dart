@@ -4,19 +4,22 @@ import 'package:intl/intl.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
-  const TransactionList({required this.transactions});
+  final Function deleteTransaction;
+  const TransactionList(
+      {required this.transactions, required this.deleteTransaction});
 
   @override
   Widget build(BuildContext context) {
     return (transactions.isNotEmpty)
         ? SizedBox(
-            height: 300,
+            
             child: ListView.builder(
               physics: const BouncingScrollPhysics(),
               itemBuilder: (ctx, index) {
                 return Card(
                   elevation: 5,
-                  margin: const EdgeInsets.symmetric(vertical: 8,horizontal: 5),
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
                   child: ListTile(
                     leading: CircleAvatar(
                       radius: 30,
@@ -33,7 +36,13 @@ class TransactionList extends StatelessWidget {
                       transactions[index].title,
                       style: Theme.of(context).textTheme.headline6,
                     ),
-                    subtitle: Text(DateFormat.yMMMd().format(transactions[index].date)),
+                    subtitle: Text(
+                        DateFormat.yMMMd().format(transactions[index].date)),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () => deleteTransaction(transactions[index].id),
+                      color: Theme.of(context).errorColor,
+                    ),
                   ),
                 );
                 // children: transactions.map((tx) {
@@ -44,22 +53,28 @@ class TransactionList extends StatelessWidget {
               itemCount: transactions.length,
             ),
           )
-        : Column(children: [
-            Text(
-              "We have no transactions yet",
-              style: Theme.of(context).textTheme.headline6,
-            ),
-            const SizedBox(
-              height: 15.0,
-            ),
-            SizedBox(
-              child: Image.asset(
-                "assets/images/waiting.png",
-                fit: BoxFit.cover,
+        : LayoutBuilder(builder: (ctx,constarints){
+          return   Column(children: [
+              Container(
+                height: constarints.maxHeight * 0.20,
+                child: Text(
+                  "We have no transactions yet",
+                  style: Theme.of(context).textTheme.headline6,
+                ),
               ),
-              height: 300,
-            ),
-          ]);
+               SizedBox(
+                height: constarints.maxHeight * 0.05,
+              ),
+              SizedBox(
+                child: Image.asset(
+                  "assets/images/waiting.png",
+                  fit: BoxFit.cover,
+                ),
+                height: constarints.maxHeight * 0.45,
+              ),
+            ]);
+        });
+      
   }
 
   //  Widget userTransactionsList() {
