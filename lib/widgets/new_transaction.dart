@@ -60,52 +60,58 @@ if(amountController.text.isEmpty){
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        padding: const EdgeInsets.all(
-          10.0,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: "title",
+    return SingleChildScrollView(
+      child: Card(
+        child: Container(
+          padding: EdgeInsets.only(
+            top: 10,
+            left: 10,
+            right: 10,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 10,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: "title",
+                ),
+                // onChanged: (title){
+                //   titleInput = title;
+                //   print(titleInput);
+                //   },
+                controller: titleController,
               ),
-              // onChanged: (title){
-              //   titleInput = title;
-              //   print(titleInput);
-              //   },
-              controller: titleController,
-            ),
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: "Amount",
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: "Amount",
+                ),
+                controller: amountController,
+                keyboardType: TextInputType.number,
+                onFieldSubmitted: (_) => submitData(),
               ),
-              controller: amountController,
-              keyboardType: TextInputType.number,
-              onFieldSubmitted: (_) => submitData(),
-            ),
-            Container(
-              height: 70,
-              child: Row(
-                children: [
-                   Expanded(child: Text(_dateSelected == null ? 'No Date Chosen!': 'Picked Date : ${DateFormat.yMd().format(_dateSelected!)}')),
-                  TextButton(
-                    onPressed: _presentDatePicker,
-                    child: const Text(
-                      'Choose Date',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  )
-                ],
+              Container(
+                height: 70,
+                child: Row(
+                  children: [
+                     Expanded(child: Text(_dateSelected == null ? 'No Date Chosen!': 'Picked Date : ${DateFormat.yMd().format(_dateSelected!)}')),
+                    TextButton(
+                      onPressed: _presentDatePicker,
+                      child: const Text(
+                        'Choose Date',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-            ElevatedButton(
-              onPressed: submitData,
-              child: const Text("Add Transaction"),
-            )
-          ],
+              ElevatedButton(
+                onPressed: submitData,
+                child: const Text("Add Transaction"),
+              )
+            ],
+          ),
         ),
       ),
     );
