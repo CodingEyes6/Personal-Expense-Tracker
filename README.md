@@ -1,5 +1,6 @@
 # personal_expense_tracker
 
+![alt text](https://github.com/CodingEyes6/Personal-Expense-Tracker/blob/main/Capture.PNG)
 A new Flutter project.
 
 ## Getting Started
